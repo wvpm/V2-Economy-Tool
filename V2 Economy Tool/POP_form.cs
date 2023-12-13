@@ -80,7 +80,7 @@ namespace V2_Economy_Tool {
 				&& _isEffectiveTaxRateValid
 				&& _isTariffValid
 				&& _hasSelectedPopType) {
-				decimal subsidies = 0, costs, lifecosts = 0, everydaycosts = 0, luxurycosts = 0,
+				decimal subsidies = 0, costs, lifeCosts = 0, everyDayCosts = 0, luxuryCosts = 0,
 					needModifier = (1M + _plurality) * (1M + _consciousness / 10M) * _baseGoodDemand * _popSize / 200000M,
 					effectiveTariffsMultiplier = 1M + _administrativeEfficiency * _tariffs;
 				foreach (KeyValuePair<Good, decimal> need in _selected.Life_Needs) {
@@ -90,7 +90,7 @@ namespace V2_Economy_Tool {
 					if (isImported = _importedGoods.Contains(need.Key)) {
 						costs *= effectiveTariffsMultiplier;
 					}
-					lifecosts += costs;
+					lifeCosts += costs;
 					LifeNeedsList.Items.Add(CreateListViewItemForNeed(need.Key, quantityNeeded, costs, isImported));
 					if (_isUnemployed) {
 						subsidies += 2M * _unemploymentBenifit * _administrativeEfficiency * need.Key.Price * need.Value;
@@ -99,7 +99,7 @@ namespace V2_Economy_Tool {
 
 				needModifier *= 1M + _numberOfInventions * _inventionImpactOnDemand;
 
-				void FillNeedsList(Dictionary<Good, decimal> needs, ListView listView) {
+				void FillNeedsList(Dictionary<Good, decimal> needs, ListView listView, ref decimal sumOfCosts) {
 					foreach (KeyValuePair<Good, decimal> need in needs) {
 						decimal quantityNeeded = need.Value * needModifier;
 						costs = need.Key.Price * quantityNeeded;
@@ -107,17 +107,17 @@ namespace V2_Economy_Tool {
 						if (isImported = _importedGoods.Contains(need.Key)) {
 							costs *= effectiveTariffsMultiplier;
 						}
-						everydaycosts += costs;
+						sumOfCosts += costs;
 						listView.Items.Add(CreateListViewItemForNeed(need.Key, quantityNeeded, costs, isImported));
 					}
 				}
 
-				FillNeedsList(_selected.Everyday_Needs, EverydayNeedsList);
-				FillNeedsList(_selected.Luxury_Needs, LuxuryNeedsList);
+				FillNeedsList(_selected.Everyday_Needs, EverydayNeedsList, ref everyDayCosts);
+				FillNeedsList(_selected.Luxury_Needs, LuxuryNeedsList, ref luxuryCosts);
 
 				_totalIncome = (_income + subsidies * _popSize / 200000M) * (1M - _effectiveTaxRate);
 				Total_Income_Box.Text = _totalIncome.Normalize().ToString();
-				UpdateCostsAndSatisfaction(lifecosts, everydaycosts, luxurycosts);
+				UpdateCostsAndSatisfaction(lifeCosts, everyDayCosts, luxuryCosts);
 			}
 
 			LifeNeedsList.ItemCheck += LifeNeedsList_ItemCheck;
