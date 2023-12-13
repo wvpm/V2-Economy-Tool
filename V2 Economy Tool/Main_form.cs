@@ -16,7 +16,7 @@ namespace V2_Economy_Tool
         private string goodspath, POPspath, production_typespath;
         private List<Good> goods;
         private List<Production_type> production_types;
-        private List<POP> pops;
+        private List<PopType> pops;
 
         public Main_form()
         {

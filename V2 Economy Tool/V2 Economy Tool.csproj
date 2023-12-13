@@ -53,7 +53,7 @@
     <Compile Include="Main_form.Designer.cs">
       <DependentUpon>Main_form.cs</DependentUpon>
     </Compile>
-    <Compile Include="POP.cs" />
+    <Compile Include="PopType.cs" />
     <Compile Include="POP_form.cs">
       <SubType>Form</SubType>
     </Compile>
