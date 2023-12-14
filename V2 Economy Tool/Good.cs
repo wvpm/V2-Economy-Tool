@@ -1,7 +1,7 @@
 ﻿namespace V2_Economy_Tool {
 	public class Good {
-		public string Name { get; private set; }
-		public decimal Price { get; private set; }
+		public string Name { get; }
+		public decimal Price { get; }
 
 		public Good(string name, decimal price) {
 			Name = name;

@@ -19,35 +19,52 @@ namespace V2_Economy_Tool {
 			Application.Run(new Main_form());
 		}
 
-		public static bool Process_filepath(string filepath, out string goodspath, out string POPspath, out string production_typespath) {
-			goodspath = POPspath = production_typespath = string.Empty;
-			if (!Directory.Exists(filepath))
+		public static bool Process_filepath(string filePath, out string goodsPath, out string POPspath, out string productionTypesPath) {
+			goodsPath = POPspath = productionTypesPath = string.Empty;
+			if (!Directory.Exists(filePath)) {
 				return false;
-			string goodslocation = @"\common\goods.txt", POPslocation = @"\poptypes", production_typeslocation = @"\common\production_types.txt", modtext = @"\mod\";
-			if (File.Exists(filepath + goodslocation))
-				goodspath = filepath + goodslocation;
-			else if (filepath.Contains(modtext) && File.Exists(filepath.Substring(0, filepath.IndexOf(modtext)) + goodslocation))
-				goodspath = filepath.Substring(0, filepath.IndexOf(modtext)) + goodslocation;
-			else return false;
-			if (Directory.Exists(filepath + POPslocation))
-				POPspath = filepath + POPslocation;
-			else if (filepath.Contains(modtext) && Directory.Exists(filepath.Substring(0, filepath.IndexOf(modtext)) + POPslocation))
-				POPspath = filepath.Substring(0, filepath.IndexOf(modtext)) + POPslocation;
-			else return false;
-			if (File.Exists(filepath + production_typeslocation))
-				production_typespath = filepath + production_typeslocation;
-			else if (filepath.Contains(modtext) && File.Exists(filepath.Substring(0, filepath.IndexOf(modtext)) + production_typeslocation))
-				production_typespath = filepath.Substring(0, filepath.IndexOf(modtext)) + production_typeslocation;
-			else return false;
+			}
+
+			string goodslocation = @"\common\goods.txt", popsLocation = @"\poptypes", productionTypesLocation = @"\common\production_types.txt", modText = @"\mod\";
+			if (File.Exists(filePath + goodslocation)) {
+				goodsPath = filePath + goodslocation;
+			}
+			else if (filePath.Contains(modText) && File.Exists(filePath.Substring(0, filePath.IndexOf(modText)) + goodslocation)) {
+				goodsPath = filePath.Substring(0, filePath.IndexOf(modText)) + goodslocation;
+			}
+			else {
+				return false;
+			}
+
+			if (Directory.Exists(filePath + popsLocation)) {
+				POPspath = filePath + popsLocation;
+			}
+			else if (filePath.Contains(modText) && Directory.Exists(filePath.Substring(0, filePath.IndexOf(modText)) + popsLocation)) {
+				POPspath = filePath.Substring(0, filePath.IndexOf(modText)) + popsLocation;
+			}
+			else {
+				return false;
+			}
+
+			if (File.Exists(filePath + productionTypesLocation)) {
+				productionTypesPath = filePath + productionTypesLocation;
+			}
+			else if (filePath.Contains(modText) && File.Exists(filePath.Substring(0, filePath.IndexOf(modText)) + productionTypesLocation)) {
+				productionTypesPath = filePath.Substring(0, filePath.IndexOf(modText)) + productionTypesLocation;
+			}
+			else {
+				return false;
+			}
+
 			return true;
 		}
 
-		public static List<Good> LoadGoods(string goodspath) {
+		public static IReadOnlyCollection<Good> LoadGoods(string goodsPath) {
 			List<Good> goods = new List<Good>();
-			using (StreamReader reader = new StreamReader(goodspath)) {
+			using (StreamReader reader = new StreamReader(goodsPath)) {
 				char[] ignore = { '=', '{', '}' };
-				string currentline, temp = string.Empty, goodname = string.Empty;
-				bool scopestart = false, costscope = false;
+				string currentLine, temp = string.Empty, goodName = string.Empty;
+				bool isScopeStart = false, isCostScope = false;
 				int scope = 0;
 				// scopes
 				// 0 - general
@@ -56,12 +73,15 @@ namespace V2_Economy_Tool {
 				// 3 - colors
 
 				while (!reader.EndOfStream) {
-					currentline = reader.ReadLine();
-					if (!costscope) temp = string.Empty;
-					for (int i = 0; i < currentline.Length; i++) {
-						switch (currentline[i]) {
+					currentLine = reader.ReadLine();
+					if (!isCostScope) {
+						temp = string.Empty;
+					}
+
+					for (int i = 0; i < currentLine.Length; i++) {
+						switch (currentLine[i]) {
 							case '#':
-								i = currentline.Length;
+								i = currentLine.Length;
 								break;
 							case '\t':
 								break;
@@ -69,43 +89,52 @@ namespace V2_Economy_Tool {
 								break;
 							case '=':
 								if (scope < 2) {
-									scopestart = true;
+									isScopeStart = true;
 									if (scope == 1) {
-										goodname = Trim(temp, ignore);
+										goodName = Trim(temp, ignore);
 										temp = string.Empty;
 									}
 								}
 								else if (scope == 2 && Trim(temp, ignore) == "cost") {
-									costscope = true;
+									isCostScope = true;
 									temp = string.Empty;
 								}
 								break;
 							case '{':
 								if (scope < 2) {
-									if (scopestart)
-										scopestart = false;
-									else throw new FileLoadException();
+									if (isScopeStart) {
+										isScopeStart = false;
+									}
+									else {
+										throw new FileLoadException();
+									}
 								}
 								scope++;
 								goto default;
 							case '}':
 								scope--;
 								temp = string.Empty;
-								if (scope < 0) throw new FileLoadException();
+								if (scope < 0) {
+									throw new FileLoadException();
+								}
+
 								goto default;
 							default:
-								if (scopestart) throw new FileLoadException();
+								if (isScopeStart) {
+									throw new FileLoadException();
+								}
+
 								if (scope > 0) {
-									if (costscope) {
-										if (!char.IsNumber(currentline[i])) {
-											if (currentline[i] != '.' || temp.Contains('.')) {
-												costscope = false;
-												goods.Add(new Good(goodname, decimal.Parse(temp)));
+									if (isCostScope) {
+										if (!char.IsNumber(currentLine[i])) {
+											if (currentLine[i] != '.' || temp.Contains('.')) {
+												isCostScope = false;
+												goods.Add(new Good(goodName, decimal.Parse(temp)));
 												temp = string.Empty;
 											}
 										}
 									}
-									temp += currentline[i];
+									temp += currentLine[i];
 								}
 								break;
 						}
@@ -115,24 +144,30 @@ namespace V2_Economy_Tool {
 			return goods;
 		}
 
-		public static List<PopType> LoadPOPs(string POPspath, List<Good> goods) {
+		public static IReadOnlyCollection<PopType> LoadPOPs(string popsPath, IReadOnlyCollection<Good> goods) {
 			List<PopType> pops = new List<PopType>();
-			string[] pop_files = Directory.GetFiles(POPspath);
-			foreach (string pop_file_path in pop_files) {
-				using (StreamReader reader = new StreamReader(pop_file_path)) {
-					Dictionary<Good, decimal> life_needs = new Dictionary<Good, decimal>(), everyday_needs = new Dictionary<Good, decimal>(), luxury_needs = new Dictionary<Good, decimal>();
+			string[] popFiles = Directory.GetFiles(popsPath);
+			foreach (string popFilePath in popFiles) {
+				using (StreamReader reader = new StreamReader(popFilePath)) {
+					Dictionary<Good, decimal> lifeNeeds = new Dictionary<Good, decimal>(), everydayNeeds = new Dictionary<Good, decimal>(), luxuryNeeds = new Dictionary<Good, decimal>();
 					char[] ignore = { '=', '{', '}' };
-					string currentline, temp = string.Empty, goodname = string.Empty, name = pop_file_path.Split('\\').Last().Replace(".txt", "");
-					bool scopestart = false, amountscope = false, outputscope = false, outputamountscope = false, life_needs_done = false, everyday_needs_done = false, luxury_needs_done = false, life_needs_scope = false, everyday_needs_scope = false, luxury_needs_scope = false;
+					Good good = null;
+					string currentline, temp = string.Empty, name = popFilePath.Split('\\').Last().Replace(".txt", "");
+					bool isScopeStart = false, isAmountScope = false, isOutputScope = false, isOutputAmountScope = false,
+					hasDoneLifeNeeds = false, hasDoneEveryDayNeeds = false, hasDoneLuxuryGoods = false,
+					isLifeNeedsScope = false, isEverydayNeedsScope = false, isLuxuryNeedsScope = false;
 					int scope = 0;
 					// scopes
 					// 0 - general
 					// 1 - rebel units, needs, migration mechanics, ideology, issues
 					//     anything higher than 1 should be either within migration mechanics, ideology or issues
 
-					while (!reader.EndOfStream && (!life_needs_done || !everyday_needs_done || !luxury_needs_done)) {
+					while (!reader.EndOfStream && (!hasDoneLifeNeeds || !hasDoneEveryDayNeeds || !hasDoneLuxuryGoods)) {
 						currentline = reader.ReadLine();
-						if (!amountscope && !outputamountscope && !outputscope) temp = string.Empty;
+						if (!isAmountScope && !isOutputAmountScope && !isOutputScope) {
+							temp = string.Empty;
+						}
+
 						for (int i = 0; i < currentline.Length; i++) {
 							switch (currentline[i]) {
 								case '#':
@@ -144,104 +179,126 @@ namespace V2_Economy_Tool {
 									break;
 								case '=':
 									if (scope == 0) {
-										scopestart = true;
+										isScopeStart = true;
 										string trimmed = Trim(temp, ignore);
 										if (trimmed == "life_needs") {
-											life_needs_scope = true;
+											isLifeNeedsScope = true;
 											temp = string.Empty;
 										}
 										else if (trimmed == "everyday_needs") {
-											everyday_needs_scope = true;
+											isEverydayNeedsScope = true;
 											temp = string.Empty;
 										}
 										else if (trimmed == "luxury_needs") {
-											luxury_needs_scope = true;
+											isLuxuryNeedsScope = true;
 											temp = string.Empty;
 										}
 									}
-									else if (scope == 1 && (life_needs_scope || everyday_needs_scope || luxury_needs_scope)) {
-										amountscope = true;
-										goodname = Trim(temp, ignore);
+									else if (scope == 1 && (isLifeNeedsScope || isEverydayNeedsScope || isLuxuryNeedsScope)) {
+										isAmountScope = true;
+										string goodName = Trim(temp, ignore);
+										good = goods.Single(x => x.Name == goodName);
 										temp = string.Empty;
 									}
 									break;
 								case '{':
 									if (scope == 0) {
-										if (scopestart) scopestart = false;
-										else throw new FileLoadException();
+										if (isScopeStart) {
+											isScopeStart = false;
+										}
+										else {
+											throw new FileLoadException();
+										}
 									}
 									scope++;
 									goto default;
 								case '}':
 									scope--;
-									if (amountscope) {
-										amountscope = false;
-										if (life_needs_scope) {
-											if (!life_needs.Keys.Contains(goods.Find(x => x.Name == goodname)))
-												life_needs.Add(goods.Find(x => x.Name == goodname), decimal.Parse(temp));
-											else
-												life_needs[goods.Find(x => x.Name == goodname)] += decimal.Parse(temp);
-											life_needs_scope = false;
-											life_needs_done = true;
+									if (isAmountScope) {
+										isAmountScope = false;
+										if (isLifeNeedsScope) {
+											if (!lifeNeeds.Keys.Contains(good)) {
+												lifeNeeds.Add(good, decimal.Parse(temp));
+											}
+											else {
+												lifeNeeds[good] += decimal.Parse(temp);
+											}
+
+											isLifeNeedsScope = false;
+											hasDoneLifeNeeds = true;
 										}
-										else if (everyday_needs_scope) {
-											if (!everyday_needs.Keys.Contains(goods.Find(x => x.Name == goodname)))
-												everyday_needs.Add(goods.Find(x => x.Name == goodname), decimal.Parse(temp));
-											else
-												everyday_needs[goods.Find(x => x.Name == goodname)] += decimal.Parse(temp);
-											everyday_needs_scope = false;
-											everyday_needs_done = true;
+										else if (isEverydayNeedsScope) {
+											if (!everydayNeeds.Keys.Contains(good)) {
+												everydayNeeds.Add(good, decimal.Parse(temp));
+											}
+											else {
+												everydayNeeds[good] += decimal.Parse(temp);
+											}
+
+											isEverydayNeedsScope = false;
+											hasDoneEveryDayNeeds = true;
 										}
-										else if (luxury_needs_scope) {
-											if (!luxury_needs.Keys.Contains(goods.Find(x => x.Name == goodname)))
-												luxury_needs.Add(goods.Find(x => x.Name == goodname), decimal.Parse(temp));
-											else
-												luxury_needs[goods.Find(x => x.Name == goodname)] += decimal.Parse(temp);
-											luxury_needs_scope = false;
-											luxury_needs_done = true;
+										else if (isLuxuryNeedsScope) {
+											if (!luxuryNeeds.Keys.Contains(good)) {
+												luxuryNeeds.Add(good, decimal.Parse(temp));
+											}
+											else {
+												luxuryNeeds[good] += decimal.Parse(temp);
+											}
+
+											isLuxuryNeedsScope = false;
+											hasDoneLuxuryGoods = true;
 										}
 									}
 									else {
-										if (life_needs_scope) {
-											life_needs_scope = false;
-											life_needs_done = true;
+										if (isLifeNeedsScope) {
+											isLifeNeedsScope = false;
+											hasDoneLifeNeeds = true;
 										}
-										else if (everyday_needs_scope) {
-											everyday_needs_scope = false;
-											everyday_needs_done = true;
+										else if (isEverydayNeedsScope) {
+											isEverydayNeedsScope = false;
+											hasDoneEveryDayNeeds = true;
 										}
-										else if (luxury_needs_scope) {
-											luxury_needs_scope = false;
-											luxury_needs_done = true;
+										else if (isLuxuryNeedsScope) {
+											isLuxuryNeedsScope = false;
+											hasDoneLuxuryGoods = true;
 										}
 									}
 
 									temp = string.Empty;
-									if (scope < 0) throw new FileLoadException();
+									if (scope < 0) {
+										throw new FileLoadException();
+									}
+
 									goto default;
 								default:
-									//if (scopestart) throw new FileLoadException();
-									if (amountscope) {
+									if (isAmountScope) {
 										if (!char.IsNumber(currentline[i])) {
 											if (currentline[i] != '.' || temp.Contains('.')) {
-												amountscope = false;
-												if (life_needs_scope) {
-													if (!life_needs.Keys.Contains(goods.Find(x => x.Name == goodname)))
-														life_needs.Add(goods.Find(x => x.Name == goodname), decimal.Parse(temp));
-													else
-														life_needs[goods.Find(x => x.Name == goodname)] += decimal.Parse(temp);
+												isAmountScope = false;
+												if (isLifeNeedsScope) {
+													if (!lifeNeeds.Keys.Contains(good)) {
+														lifeNeeds.Add(good, decimal.Parse(temp));
+													}
+													else {
+														lifeNeeds[good] += decimal.Parse(temp);
+													}
 												}
-												else if (everyday_needs_scope) {
-													if (!everyday_needs.Keys.Contains(goods.Find(x => x.Name == goodname)))
-														everyday_needs.Add(goods.Find(x => x.Name == goodname), decimal.Parse(temp));
-													else
-														everyday_needs[goods.Find(x => x.Name == goodname)] += decimal.Parse(temp);
+												else if (isEverydayNeedsScope) {
+													if (!everydayNeeds.Keys.Contains(good)) {
+														everydayNeeds.Add(good, decimal.Parse(temp));
+													}
+													else {
+														everydayNeeds[good] += decimal.Parse(temp);
+													}
 												}
-												else if (luxury_needs_scope) {
-													if (!luxury_needs.Keys.Contains(goods.Find(x => x.Name == goodname)))
-														luxury_needs.Add(goods.Find(x => x.Name == goodname), decimal.Parse(temp));
-													else
-														luxury_needs[goods.Find(x => x.Name == goodname)] += decimal.Parse(temp);
+												else if (isLuxuryNeedsScope) {
+													if (!luxuryNeeds.Keys.Contains(good)) {
+														luxuryNeeds.Add(good, decimal.Parse(temp));
+													}
+													else {
+														luxuryNeeds[good] += decimal.Parse(temp);
+													}
 												}
 												temp = string.Empty;
 											}
@@ -252,21 +309,22 @@ namespace V2_Economy_Tool {
 							}
 						}
 					}
-					pops.Add(new PopType(name, life_needs, everyday_needs, luxury_needs));
+					pops.Add(new PopType(name, lifeNeeds, everydayNeeds, luxuryNeeds));
 				}
 			}
 			return pops;
 		}
 
-		public static List<Production_type> LoadProduction_types(string production_typespath, List<Good> goods) {
-			List<Production_type> production_types = new List<Production_type>();
-			List<Factory_template> templates = new List<Factory_template>();
+		public static IReadOnlyCollection<ProductionType> LoadProduction_types(string production_typespath, IReadOnlyCollection<Good> goods) {
+			List<ProductionType> production_types = new List<ProductionType>();
+			List<FactoryTemplate> templates = new List<FactoryTemplate>();
 			using (StreamReader reader = new StreamReader(production_typespath)) {
 				Dictionary<Good, decimal> inputs = new Dictionary<Good, decimal>();
 				KeyValuePair<Good, decimal> output = new KeyValuePair<Good, decimal>();
 				char[] ignore = { '=', '{', '}' };
-				string currentline, temp = string.Empty, production_typename = string.Empty, template = string.Empty, goodname = string.Empty;
-				bool scopestart = false, templatescope = false, inputscope = false, amountscope = false, outputscope = false, outputamountscope = false;
+				string currentLine, temp = string.Empty, productionTypeName = string.Empty, template = string.Empty;
+				Good good = null;
+				bool isScopeStart = false, isTemplateScope = false, isInputScope = false, isAmountScope = false, isOutputScope = false, isOutputAmountScope = false;
 				int scope = 0;
 
 				// scopes
@@ -275,20 +333,23 @@ namespace V2_Economy_Tool {
 				// 2 - effiency, owner, employees, input_goods, output_goods, bonus
 				// 3 - employee type, bonus trigger
 				//     anything higher than 3 should be within a bonus trigger
-
-				templates.Add(new Factory_template("artisans", new Dictionary<Good, decimal>()));
+				const string artisansTemplateName = "artisans";
+				templates.Add(new FactoryTemplate(artisansTemplateName, new Dictionary<Good, decimal>()));
 
 				while (!reader.EndOfStream) {
-					if (templatescope) {
+					if (isTemplateScope) {
 						template = Trim(temp, ignore);
-						templatescope = false;
+						isTemplateScope = false;
 					}
-					currentline = reader.ReadLine();
-					if (!amountscope && !outputamountscope && !outputscope) temp = string.Empty;
-					for (int i = 0; i < currentline.Length; i++) {
-						switch (currentline[i]) {
+					currentLine = reader.ReadLine();
+					if (!isAmountScope && !isOutputAmountScope && !isOutputScope) {
+						temp = string.Empty;
+					}
+
+					for (int i = 0; i < currentLine.Length; i++) {
+						switch (currentLine[i]) {
 							case '#':
-								i = currentline.Length;
+								i = currentLine.Length;
 								break;
 							case '\t':
 								break;
@@ -296,90 +357,106 @@ namespace V2_Economy_Tool {
 								break;
 							case '=':
 								if (scope < 2) {
-									scopestart = true;
+									isScopeStart = true;
 									if (scope == 0) {
-										production_typename = Trim(temp, ignore);
+										productionTypeName = Trim(temp, ignore);
 										temp = string.Empty;
 									}
 									else if (scope == 1 && Trim(temp, ignore) == "template") {
-										templatescope = true;
+										isTemplateScope = true;
 										temp = string.Empty;
 									}
 									else if ((scope == 1 && Trim(temp, ignore) == "input_goods") || (scope == 1 && Trim(temp, ignore) == "efficiency")) {
-										inputscope = true;
+										isInputScope = true;
 										temp = string.Empty;
 									}
 									else if (scope == 1 && Trim(temp, ignore) == "output_goods") {
-										outputscope = true;
+										isOutputScope = true;
 										temp = string.Empty;
 									}
 									else if (scope == 1 && Trim(temp, ignore) == "value") {
-										outputamountscope = true;
+										isOutputAmountScope = true;
 										temp = string.Empty;
 									}
 								}
-								else if (scope == 2 && inputscope) {
-									amountscope = true;
-									goodname = Trim(temp, ignore);
+								else if (scope == 2 && isInputScope) {
+									isAmountScope = true;
+									string goodName = Trim(temp, ignore);
+									good = goods.Single(x => x.Name == goodName);
 									temp = string.Empty;
 								}
 								break;
 							case '{':
 								if (scope < 2) {
-									if (scopestart) scopestart = false;
-									else throw new FileLoadException();
+									if (isScopeStart) {
+										isScopeStart = false;
+									}
+									else {
+										throw new FileLoadException();
+									}
 								}
 								scope++;
 								goto default;
 							case '}':
 								scope--;
-								if (amountscope) {
-									amountscope = false;
-									inputs.Add(goods.Find(x => x.Name == goodname), decimal.Parse(temp));
+								if (isAmountScope) {
+									isAmountScope = false;
+									inputs.Add(good, decimal.Parse(temp));
 								}
 								temp = string.Empty;
-								if (inputscope) inputscope = false;
+								if (isInputScope) {
+									isInputScope = false;
+								}
+
 								if (scope == 0) {
 									if (!template.StartsWith("RGO_template_")) {
 										if (template == string.Empty) {
-											if (production_typename.StartsWith("artisan_"))
-												production_types.Add(new Production_type(production_typename, templates.First(x => x.Name == "artisans"), inputs, output));
-											else templates.Add(new Factory_template(production_typename, inputs));
+											if (productionTypeName.StartsWith(artisansTemplateName + '_')) {
+												production_types.Add(new ProductionType(productionTypeName, templates.Single(x => x.Name == artisansTemplateName), inputs, output));
+											}
+											else {
+												templates.Add(new FactoryTemplate(productionTypeName, inputs));
+											}
 										}
-										else production_types.Add(new Production_type(production_typename, templates.First(x => x.Name == template), inputs, output));
+										else {
+											production_types.Add(new ProductionType(productionTypeName, templates.Single(x => x.Name == template), inputs, output));
+										}
 									}
 									inputs = new Dictionary<Good, decimal>();
 									template = string.Empty;
 								}
-								else if (scope < 0) throw new FileLoadException();
+								else if (scope < 0) {
+									throw new FileLoadException();
+								}
+
 								goto default;
 							default:
-								//if (scopestart) throw new FileLoadException();
-								if (amountscope) {
-									if (!char.IsNumber(currentline[i])) {
-										if (currentline[i] != '.' || temp.Contains('.')) {
-											amountscope = false;
-											inputs.Add(goods.Find(x => x.Name == goodname), decimal.Parse(temp));
+								if (isAmountScope) {
+									if (!char.IsNumber(currentLine[i])) {
+										if (currentLine[i] != '.' || temp.Contains('.')) {
+											isAmountScope = false;
+											inputs.Add(good, decimal.Parse(temp));
 											temp = string.Empty;
 										}
 									}
 								}
-								else if (outputamountscope) {
-									if (!char.IsNumber(currentline[i])) {
-										if (currentline[i] != '.' || temp.Contains('.')) {
-											outputamountscope = false;
-											output = new KeyValuePair<Good, decimal>(goods.Find(x => x.Name == goodname), decimal.Parse(temp));
+								else if (isOutputAmountScope) {
+									if (!char.IsNumber(currentLine[i])) {
+										if (currentLine[i] != '.' || temp.Contains('.')) {
+											isOutputAmountScope = false;
+											output = new KeyValuePair<Good, decimal>(good, decimal.Parse(temp));
 											temp = string.Empty;
 										}
 									}
 								}
-								temp += currentline[i];
+								temp += currentLine[i];
 								break;
 						}
-						if (outputscope) {
-							if (!char.IsLetter(currentline[i]) && currentline[i] != '_' && temp != string.Empty) {
-								goodname = Trim(temp, ignore);
-								outputscope = false;
+						if (isOutputScope) {
+							if (!char.IsLetter(currentLine[i]) && currentLine[i] != '_' && temp != string.Empty) {
+								string goodName = Trim(temp, ignore);
+								good = goods.Single(x => x.Name == goodName);
+								isOutputScope = false;
 								temp = string.Empty;
 							}
 						}

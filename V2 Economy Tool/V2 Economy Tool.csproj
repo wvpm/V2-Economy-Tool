@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factory_template.cs" />
+    <Compile Include="FactoryTemplate.cs" />
     <Compile Include="Main_form.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,7 +60,7 @@
     <Compile Include="POP_form.Designer.cs">
       <DependentUpon>POP_form.cs</DependentUpon>
     </Compile>
-    <Compile Include="Production_type.cs" />
+    <Compile Include="ProductionType.cs" />
     <Compile Include="Production_type_form.cs">
       <SubType>Form</SubType>
     </Compile>

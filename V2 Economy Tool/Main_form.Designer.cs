@@ -64,7 +64,7 @@
 			this.load_Button.TabIndex = 2;
 			this.load_Button.Text = "Load";
 			this.load_Button.UseVisualStyleBackColor = true;
-			this.load_Button.Click += new System.EventHandler(this.load_Button_Click);
+			this.load_Button.Click += new System.EventHandler(this.Load_Button_Click);
 			// 
 			// GoodsList
 			// 

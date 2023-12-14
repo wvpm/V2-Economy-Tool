@@ -12,7 +12,7 @@ namespace V2_Economy_Tool
 {
     public partial class Production_type_form : Form
     {
-        public Production_type_form(Production_type production_type)
+        public Production_type_form(ProductionType production_type)
         {
             InitializeComponent();
             this.Text = production_type.Name;
@@ -51,8 +51,11 @@ namespace V2_Economy_Tool
             stats += Environment.NewLine + "Maintenance costs\t" + Program.Normalize(maintenancecosts);
             stats += Environment.NewLine + "Revenue\t\t" + Program.Normalize(revenue);
             stats += Environment.NewLine + "Profit\t\t" + Program.Normalize(profit);
-            if (inputcosts != 0) stats += Environment.NewLine + "Profitability\t" + Math.Round(100 * revenue / (inputcosts + maintenancecosts), 3) + '%';
-            Stat_Box.Text = stats;
+            if (inputcosts != 0) {
+				stats += Environment.NewLine + "Profitability\t" + Math.Round(100 * revenue / (inputcosts + maintenancecosts), 3) + '%';
+			}
+
+			Stat_Box.Text = stats;
         }
     }
 }
