@@ -5,11 +5,13 @@ using System.Windows.Forms;
 
 namespace V2_Economy_Tool {
 	public partial class POP_form : Form {
+		private const decimal _popSizeDivider = 200000M;
 		private readonly IReadOnlyCollection<PopType> _popTypes;
 		private PopType _selected;
 		private bool _isUnemployed = false,
 			_isPopSizeValid = false,
 			_isConsciousnessValid = false,
+			_isPdefBaseConValid = false,
 			_isPluralityValid = false,
 			_isBaseGoodsDemandValid = false,
 			_isInventionImpactOnDemandValid = false,
@@ -24,6 +26,7 @@ namespace V2_Economy_Tool {
 		private uint _numberOfInventions, _popSize;
 		private decimal _consciousness,
 			_baseGoodDemand,
+			_pdefBaseCon,
 			_inventionImpactOnDemand,
 			_income,
 			_totalIncome,
@@ -70,6 +73,7 @@ namespace V2_Economy_Tool {
 			Total_Income_Box.Text = Life_Costs_Box.Text = Everyday_Costs_Box.Text = Life_And_Everyday_Costs_Box.Text = Luxury_Costs_Box.Text = Total_Costs_Box.Text = string.Empty;
 			if (_isPopSizeValid
 				&& _isConsciousnessValid
+				&& _isPdefBaseConValid
 				&& _isPluralityValid
 				&& _isBaseGoodsDemandValid
 				&& _isInventionImpactOnDemandValid
@@ -81,8 +85,9 @@ namespace V2_Economy_Tool {
 				&& _isTariffValid
 				&& _hasSelectedPopType) {
 				decimal subsidies = 0, costs, lifeCosts = 0, everyDayCosts = 0, luxuryCosts = 0,
-					needModifier = (1M + _plurality) * (1M + _consciousness / 10M) * _baseGoodDemand * _popSize / 200000M,
-					effectiveTariffsMultiplier = 1M + _administrativeEfficiency * _tariffs;
+					needModifier = CalculateNeedMultiplierExcludingInventions(),
+					unemploymentSubsidiesModifier = CalculateUnemloymentSubsidiesMultiplier(),
+					effectiveTariffsMultiplier = CalculateEffectiveTariffMultiplier();
 				foreach (KeyValuePair<Good, decimal> need in _selected.Life_Needs) {
 					decimal quantityNeeded = need.Value * needModifier;
 					costs = need.Key.Price * quantityNeeded;
@@ -93,11 +98,11 @@ namespace V2_Economy_Tool {
 					lifeCosts += costs;
 					LifeNeedsList.Items.Add(CreateListViewItemForNeed(need.Key, quantityNeeded, costs, isImported));
 					if (_isUnemployed) {
-						subsidies += 2M * _unemploymentBenifit * _administrativeEfficiency * need.Key.Price * need.Value;
+						subsidies += unemploymentSubsidiesModifier * need.Key.Price * need.Value;
 					}
 				}
 
-				needModifier *= 1M + _numberOfInventions * _inventionImpactOnDemand;
+				needModifier *= CalculateInventionsNeedMultiplier();
 
 				void FillNeedsList(Dictionary<Good, decimal> needs, ListView listView, ref decimal sumOfCosts) {
 					foreach (KeyValuePair<Good, decimal> need in needs) {
@@ -115,7 +120,7 @@ namespace V2_Economy_Tool {
 				FillNeedsList(_selected.Everyday_Needs, EverydayNeedsList, ref everyDayCosts);
 				FillNeedsList(_selected.Luxury_Needs, LuxuryNeedsList, ref luxuryCosts);
 
-				_totalIncome = (_income + subsidies * _popSize / 200000M) * (1M - _effectiveTaxRate);
+				_totalIncome = (_income + subsidies) * (1M - _effectiveTaxRate);
 				Total_Income_Box.Text = _totalIncome.Normalize().ToString();
 				UpdateCostsAndSatisfaction(lifeCosts, everyDayCosts, luxuryCosts);
 			}
@@ -163,8 +168,8 @@ namespace V2_Economy_Tool {
 			LuxuryNeedsList.ItemCheck -= LuxuryNeedsList_ItemCheck;
 
 			decimal lifeCosts = 0M, everyDayCosts = 0M, luxuryCosts = 0M,
-				needModifier = (1M + _plurality) * (1M + _consciousness / 10M) * _baseGoodDemand * _popSize / 200000M,
-				effectiveTariffsMultiplier = 1M + _administrativeEfficiency * _tariffs;
+				needModifier = CalculateNeedMultiplierExcludingInventions(),
+				effectiveTariffsMultiplier = CalculateEffectiveTariffMultiplier();
 
 			void ProcessListViewItem(ListViewItem item, ref decimal sumOfCosts) {
 				Good good = (Good)item.Tag;
@@ -182,7 +187,7 @@ namespace V2_Economy_Tool {
 				ProcessListViewItem(item, ref lifeCosts);
 			}
 
-			needModifier *= 1M + _numberOfInventions * _inventionImpactOnDemand;
+			needModifier *= CalculateInventionsNeedMultiplier();
 
 			foreach (ListViewItem item in EverydayNeedsList.Items) {
 				ProcessListViewItem(item, ref everyDayCosts);
@@ -198,6 +203,11 @@ namespace V2_Economy_Tool {
 			EverydayNeedsList.ItemCheck += EverydayNeedsList_ItemCheck;
 			LuxuryNeedsList.ItemCheck += LuxuryNeedsList_ItemCheck;
 		}
+
+		private decimal CalculateEffectiveTariffMultiplier() => 1M + _administrativeEfficiency * _tariffs;
+		private decimal CalculateUnemloymentSubsidiesMultiplier() => 2M * _unemploymentBenifit * _administrativeEfficiency * _popSize / _popSizeDivider;
+		private decimal CalculateNeedMultiplierExcludingInventions() => (1M + _plurality) * (1M + 2M * _consciousness / _pdefBaseCon) * _baseGoodDemand * _popSize / _popSizeDivider;
+		private decimal CalculateInventionsNeedMultiplier() => 1M + _numberOfInventions * _inventionImpactOnDemand;
 
 		private static ListViewItem CreateListViewItemForNeed(Good good, decimal quantity, decimal costs, bool isImported) {
 			ListViewItem item = new ListViewItem(good.Name) {
@@ -222,6 +232,11 @@ namespace V2_Economy_Tool {
 
 		private void Consciousness_Box_TextChanged(object sender, EventArgs e) {
 			_isConsciousnessValid = decimal.TryParse(Consciousness_Box.Text, out _consciousness);
+			UpdateAll();
+		}
+
+		private void PDEF_Base_Con_Box_TextChanged(object sender, EventArgs e) {
+			_isPdefBaseConValid = decimal.TryParse(PDEF_Base_Con_Box.Text, out _pdefBaseCon);
 			UpdateAll();
 		}
 
