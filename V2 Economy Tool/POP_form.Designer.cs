@@ -80,7 +80,7 @@
 			// 
 			this.Unemployed_Box.AutoSize = true;
 			this.Unemployed_Box.Location = new System.Drawing.Point(623, 14);
-			this.Unemployed_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Unemployed_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Unemployed_Box.Name = "Unemployed_Box";
 			this.Unemployed_Box.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
 			this.Unemployed_Box.Size = new System.Drawing.Size(85, 17);
@@ -94,7 +94,7 @@
 			// 
 			this.POP_Type_Box.FormattingEnabled = true;
 			this.POP_Type_Box.Location = new System.Drawing.Point(9, 10);
-			this.POP_Type_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.POP_Type_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.POP_Type_Box.MaxDropDownItems = 13;
 			this.POP_Type_Box.Name = "POP_Type_Box";
 			this.POP_Type_Box.Size = new System.Drawing.Size(92, 21);
@@ -106,7 +106,7 @@
 			this.LifeNeedsList.CheckBoxes = true;
 			this.LifeNeedsList.HideSelection = false;
 			this.LifeNeedsList.Location = new System.Drawing.Point(9, 205);
-			this.LifeNeedsList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.LifeNeedsList.Margin = new System.Windows.Forms.Padding(2);
 			this.LifeNeedsList.Name = "LifeNeedsList";
 			this.LifeNeedsList.Size = new System.Drawing.Size(241, 385);
 			this.LifeNeedsList.TabIndex = 0;
@@ -120,7 +120,7 @@
 			this.EverydayNeedsList.CheckBoxes = true;
 			this.EverydayNeedsList.HideSelection = false;
 			this.EverydayNeedsList.Location = new System.Drawing.Point(268, 205);
-			this.EverydayNeedsList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.EverydayNeedsList.Margin = new System.Windows.Forms.Padding(2);
 			this.EverydayNeedsList.Name = "EverydayNeedsList";
 			this.EverydayNeedsList.Size = new System.Drawing.Size(241, 385);
 			this.EverydayNeedsList.TabIndex = 0;
@@ -134,7 +134,7 @@
 			this.LuxuryNeedsList.CheckBoxes = true;
 			this.LuxuryNeedsList.HideSelection = false;
 			this.LuxuryNeedsList.Location = new System.Drawing.Point(528, 205);
-			this.LuxuryNeedsList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.LuxuryNeedsList.Margin = new System.Windows.Forms.Padding(2);
 			this.LuxuryNeedsList.Name = "LuxuryNeedsList";
 			this.LuxuryNeedsList.Size = new System.Drawing.Size(241, 385);
 			this.LuxuryNeedsList.TabIndex = 0;
@@ -146,10 +146,10 @@
 			// Income_Box
 			// 
 			this.Income_Box.Location = new System.Drawing.Point(693, 81);
-			this.Income_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Income_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Income_Box.Name = "Income_Box";
 			this.Income_Box.Size = new System.Drawing.Size(76, 20);
-			this.Income_Box.TabIndex = 10;
+			this.Income_Box.TabIndex = 11;
 			this.Income_Box.TextChanged += new System.EventHandler(this.IncomeBox_TextChanged);
 			// 
 			// Income_Label
@@ -175,7 +175,7 @@
 			// Size_Box
 			// 
 			this.Size_Box.Location = new System.Drawing.Point(196, 14);
-			this.Size_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Size_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Size_Box.Name = "Size_Box";
 			this.Size_Box.Size = new System.Drawing.Size(76, 20);
 			this.Size_Box.TabIndex = 2;
@@ -184,10 +184,10 @@
 			// Consciousness_Box
 			// 
 			this.Consciousness_Box.Location = new System.Drawing.Point(196, 62);
-			this.Consciousness_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Consciousness_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Consciousness_Box.Name = "Consciousness_Box";
 			this.Consciousness_Box.Size = new System.Drawing.Size(76, 20);
-			this.Consciousness_Box.TabIndex = 3;
+			this.Consciousness_Box.TabIndex = 4;
 			this.Consciousness_Box.TextChanged += new System.EventHandler(this.Consciousness_Box_TextChanged);
 			// 
 			// Consciousness_Label
@@ -213,10 +213,10 @@
 			// Plurality_Box
 			// 
 			this.Plurality_Box.Location = new System.Drawing.Point(196, 38);
-			this.Plurality_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Plurality_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Plurality_Box.Name = "Plurality_Box";
 			this.Plurality_Box.Size = new System.Drawing.Size(76, 20);
-			this.Plurality_Box.TabIndex = 4;
+			this.Plurality_Box.TabIndex = 3;
 			this.Plurality_Box.TextChanged += new System.EventHandler(this.Plurality_Box_TextChanged);
 			// 
 			// Base_Goods_Demand_Label
@@ -232,19 +232,19 @@
 			// Base_Goods_Demand_Box
 			// 
 			this.Base_Goods_Demand_Box.Location = new System.Drawing.Point(196, 110);
-			this.Base_Goods_Demand_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Base_Goods_Demand_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Base_Goods_Demand_Box.Name = "Base_Goods_Demand_Box";
 			this.Base_Goods_Demand_Box.Size = new System.Drawing.Size(76, 20);
-			this.Base_Goods_Demand_Box.TabIndex = 5;
+			this.Base_Goods_Demand_Box.TabIndex = 6;
 			this.Base_Goods_Demand_Box.TextChanged += new System.EventHandler(this.Base_Goods_Demand_Box_TextChanged);
 			// 
 			// Invention_Impact_On_Demand_Box
 			// 
 			this.Invention_Impact_On_Demand_Box.Location = new System.Drawing.Point(196, 132);
-			this.Invention_Impact_On_Demand_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Invention_Impact_On_Demand_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Invention_Impact_On_Demand_Box.Name = "Invention_Impact_On_Demand_Box";
 			this.Invention_Impact_On_Demand_Box.Size = new System.Drawing.Size(76, 20);
-			this.Invention_Impact_On_Demand_Box.TabIndex = 6;
+			this.Invention_Impact_On_Demand_Box.TabIndex = 7;
 			this.Invention_Impact_On_Demand_Box.TextChanged += new System.EventHandler(this.Invention_Impact_On_Demand_Box_TextChanged);
 			// 
 			// Invention_Impact_On_Demand_Label
@@ -270,10 +270,10 @@
 			// Unemployement_Benifit_Box
 			// 
 			this.Unemployement_Benifit_Box.Location = new System.Drawing.Point(693, 36);
-			this.Unemployement_Benifit_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Unemployement_Benifit_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Unemployement_Benifit_Box.Name = "Unemployement_Benifit_Box";
 			this.Unemployement_Benifit_Box.Size = new System.Drawing.Size(76, 20);
-			this.Unemployement_Benifit_Box.TabIndex = 8;
+			this.Unemployement_Benifit_Box.TabIndex = 9;
 			this.Unemployement_Benifit_Box.TextChanged += new System.EventHandler(this.Unemployement_Benifit_Box_TextChanged);
 			// 
 			// Administrative_Efficiency_Label
@@ -289,10 +289,10 @@
 			// Administrative_Efficiency_Box
 			// 
 			this.Administrative_Efficiency_Box.Location = new System.Drawing.Point(693, 58);
-			this.Administrative_Efficiency_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Administrative_Efficiency_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Administrative_Efficiency_Box.Name = "Administrative_Efficiency_Box";
 			this.Administrative_Efficiency_Box.Size = new System.Drawing.Size(76, 20);
-			this.Administrative_Efficiency_Box.TabIndex = 9;
+			this.Administrative_Efficiency_Box.TabIndex = 10;
 			this.Administrative_Efficiency_Box.TextChanged += new System.EventHandler(this.Administrative_Efficiency_Box_TextChanged);
 			// 
 			// Inventions_Label
@@ -308,10 +308,10 @@
 			// Inventions_Box
 			// 
 			this.Inventions_Box.Location = new System.Drawing.Point(196, 155);
-			this.Inventions_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Inventions_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Inventions_Box.Name = "Inventions_Box";
 			this.Inventions_Box.Size = new System.Drawing.Size(76, 20);
-			this.Inventions_Box.TabIndex = 7;
+			this.Inventions_Box.TabIndex = 8;
 			this.Inventions_Box.TextChanged += new System.EventHandler(this.Inventions_Box_TextChanged);
 			// 
 			// Total_Income_Label
@@ -327,11 +327,11 @@
 			// Total_Income_Box
 			// 
 			this.Total_Income_Box.Location = new System.Drawing.Point(693, 149);
-			this.Total_Income_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Total_Income_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Total_Income_Box.Name = "Total_Income_Box";
 			this.Total_Income_Box.ReadOnly = true;
 			this.Total_Income_Box.Size = new System.Drawing.Size(76, 20);
-			this.Total_Income_Box.TabIndex = 24;
+			this.Total_Income_Box.TabIndex = 0;
 			this.Total_Income_Box.TabStop = false;
 			// 
 			// Effective_Tax_Label
@@ -347,10 +347,10 @@
 			// Effective_Tax_Box
 			// 
 			this.Effective_Tax_Box.Location = new System.Drawing.Point(693, 104);
-			this.Effective_Tax_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Effective_Tax_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Effective_Tax_Box.Name = "Effective_Tax_Box";
 			this.Effective_Tax_Box.Size = new System.Drawing.Size(76, 20);
-			this.Effective_Tax_Box.TabIndex = 11;
+			this.Effective_Tax_Box.TabIndex = 12;
 			this.Effective_Tax_Box.TextChanged += new System.EventHandler(this.Effective_Tax_Box_TextChanged);
 			// 
 			// Tariff_Label
@@ -366,16 +366,16 @@
 			// Tariffs_Box
 			// 
 			this.Tariffs_Box.Location = new System.Drawing.Point(693, 126);
-			this.Tariffs_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Tariffs_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Tariffs_Box.Name = "Tariffs_Box";
 			this.Tariffs_Box.Size = new System.Drawing.Size(76, 20);
-			this.Tariffs_Box.TabIndex = 12;
+			this.Tariffs_Box.TabIndex = 13;
 			this.Tariffs_Box.TextChanged += new System.EventHandler(this.Tariffs_Box_TextChanged);
 			// 
 			// Life_Costs_Box
 			// 
 			this.Life_Costs_Box.Location = new System.Drawing.Point(49, 178);
-			this.Life_Costs_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Life_Costs_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Life_Costs_Box.Name = "Life_Costs_Box";
 			this.Life_Costs_Box.ReadOnly = true;
 			this.Life_Costs_Box.Size = new System.Drawing.Size(76, 20);
@@ -395,11 +395,12 @@
 			// Everyday_Costs_Box
 			// 
 			this.Everyday_Costs_Box.Location = new System.Drawing.Point(305, 178);
-			this.Everyday_Costs_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Everyday_Costs_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Everyday_Costs_Box.Name = "Everyday_Costs_Box";
 			this.Everyday_Costs_Box.ReadOnly = true;
 			this.Everyday_Costs_Box.Size = new System.Drawing.Size(76, 20);
 			this.Everyday_Costs_Box.TabIndex = 0;
+			this.Everyday_Costs_Box.TabStop = false;
 			// 
 			// label2
 			// 
@@ -414,7 +415,7 @@
 			// Luxury_Costs_Box
 			// 
 			this.Luxury_Costs_Box.Location = new System.Drawing.Point(566, 178);
-			this.Luxury_Costs_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Luxury_Costs_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Luxury_Costs_Box.Name = "Luxury_Costs_Box";
 			this.Luxury_Costs_Box.ReadOnly = true;
 			this.Luxury_Costs_Box.Size = new System.Drawing.Size(76, 20);
@@ -434,7 +435,7 @@
 			// Life_And_Everyday_Costs_Box
 			// 
 			this.Life_And_Everyday_Costs_Box.Location = new System.Drawing.Point(385, 178);
-			this.Life_And_Everyday_Costs_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Life_And_Everyday_Costs_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Life_And_Everyday_Costs_Box.Name = "Life_And_Everyday_Costs_Box";
 			this.Life_And_Everyday_Costs_Box.ReadOnly = true;
 			this.Life_And_Everyday_Costs_Box.Size = new System.Drawing.Size(76, 20);
@@ -444,7 +445,7 @@
 			// Total_Costs_Box
 			// 
 			this.Total_Costs_Box.Location = new System.Drawing.Point(645, 178);
-			this.Total_Costs_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Total_Costs_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Total_Costs_Box.Name = "Total_Costs_Box";
 			this.Total_Costs_Box.ReadOnly = true;
 			this.Total_Costs_Box.Size = new System.Drawing.Size(76, 20);
@@ -464,31 +465,31 @@
 			// Life_Needs_Satisfaction_Box
 			// 
 			this.Life_Needs_Satisfaction_Box.Location = new System.Drawing.Point(385, 61);
-			this.Life_Needs_Satisfaction_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Life_Needs_Satisfaction_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Life_Needs_Satisfaction_Box.Name = "Life_Needs_Satisfaction_Box";
 			this.Life_Needs_Satisfaction_Box.ReadOnly = true;
 			this.Life_Needs_Satisfaction_Box.Size = new System.Drawing.Size(76, 20);
-			this.Life_Needs_Satisfaction_Box.TabIndex = 25;
+			this.Life_Needs_Satisfaction_Box.TabIndex = 0;
 			this.Life_Needs_Satisfaction_Box.TabStop = false;
 			// 
 			// Everyday_Needs_Satisfaction_Box
 			// 
 			this.Everyday_Needs_Satisfaction_Box.Location = new System.Drawing.Point(385, 84);
-			this.Everyday_Needs_Satisfaction_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Everyday_Needs_Satisfaction_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Everyday_Needs_Satisfaction_Box.Name = "Everyday_Needs_Satisfaction_Box";
 			this.Everyday_Needs_Satisfaction_Box.ReadOnly = true;
 			this.Everyday_Needs_Satisfaction_Box.Size = new System.Drawing.Size(76, 20);
-			this.Everyday_Needs_Satisfaction_Box.TabIndex = 26;
+			this.Everyday_Needs_Satisfaction_Box.TabIndex = 0;
 			this.Everyday_Needs_Satisfaction_Box.TabStop = false;
 			// 
 			// Luxury_Needs_Satisfaction_Box
 			// 
 			this.Luxury_Needs_Satisfaction_Box.Location = new System.Drawing.Point(385, 106);
-			this.Luxury_Needs_Satisfaction_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Luxury_Needs_Satisfaction_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.Luxury_Needs_Satisfaction_Box.Name = "Luxury_Needs_Satisfaction_Box";
 			this.Luxury_Needs_Satisfaction_Box.ReadOnly = true;
 			this.Luxury_Needs_Satisfaction_Box.Size = new System.Drawing.Size(76, 20);
-			this.Luxury_Needs_Satisfaction_Box.TabIndex = 27;
+			this.Luxury_Needs_Satisfaction_Box.TabIndex = 0;
 			this.Luxury_Needs_Satisfaction_Box.TabStop = false;
 			// 
 			// label5
@@ -508,7 +509,7 @@
 			this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(75, 13);
-			this.label6.TabIndex = 28;
+			this.label6.TabIndex = 0;
 			this.label6.Text = "Luxury Needs:";
 			// 
 			// label7
@@ -518,7 +519,7 @@
 			this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(88, 13);
-			this.label7.TabIndex = 29;
+			this.label7.TabIndex = 0;
 			this.label7.Text = "Everyday Needs:";
 			// 
 			// PDEF_Base_Con_Box
@@ -527,7 +528,7 @@
 			this.PDEF_Base_Con_Box.Margin = new System.Windows.Forms.Padding(2);
 			this.PDEF_Base_Con_Box.Name = "PDEF_Base_Con_Box";
 			this.PDEF_Base_Con_Box.Size = new System.Drawing.Size(76, 20);
-			this.PDEF_Base_Con_Box.TabIndex = 31;
+			this.PDEF_Base_Con_Box.TabIndex = 5;
 			this.PDEF_Base_Con_Box.TextChanged += new System.EventHandler(this.PDEF_Base_Con_Box_TextChanged);
 			// 
 			// label8
@@ -537,7 +538,7 @@
 			this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(101, 13);
-			this.label8.TabIndex = 30;
+			this.label8.TabIndex = 0;
 			this.label8.Text = "PDEF_BASE_CON:";
 			// 
 			// POP_form
@@ -591,7 +592,7 @@
 			this.Controls.Add(this.LifeNeedsList);
 			this.Controls.Add(this.POP_Type_Box);
 			this.Controls.Add(this.Unemployed_Box);
-			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "POP_form";
 			this.Text = "POP";
 			this.ResumeLayout(false);
