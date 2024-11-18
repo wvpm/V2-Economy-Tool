@@ -333,7 +333,7 @@ namespace V2_Economy_Tool {
 				// 2 - effiency, owner, employees, input_goods, output_goods, bonus
 				// 3 - employee type, bonus trigger
 				//     anything higher than 3 should be within a bonus trigger
-				const string artisansTemplateName = "artisans";
+				const string artisansTemplateName = "artisan";
 				templates.Add(new FactoryTemplate(artisansTemplateName, new Dictionary<Good, decimal>()));
 
 				while (!reader.EndOfStream) {
